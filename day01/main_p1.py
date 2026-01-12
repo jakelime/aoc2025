@@ -22,7 +22,7 @@ def parse_text_file(fpath: Path) -> list[DataEntry]:
             data.append(
                 DataEntry(
                     direction=v[0],
-                    value=int(v[1:]) % (PT_MAX + 1),
+                    value=int(v[1:]),
                 )
             )
     return data
@@ -32,13 +32,14 @@ def algo(data: list[DataEntry]) -> int:
     result = PT_START
     count_of_zero = 0
     for d in data:
+        v = d.value % (PT_MAX + 1)
         match d.direction:
             case "L":
-                result -= d.value
+                result -= v
                 if result < PT_MIN:
                     result = PT_MAX + result + 1
             case "R":
-                result += d.value
+                result += v
                 if result > PT_MAX:
                     result = result - (PT_MAX + 1)
         if result == 0:
